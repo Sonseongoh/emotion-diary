@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -74,9 +74,13 @@ const dummyData = [
 ];
 
 function App() {
+  useEffect(() => {
+    localStorage.setItem("key", 10);
+  }, []);
+
   const [data, dispatch] = useReducer(reducer, dummyData);
 
-  const dataId = useRef(0);
+  const dataId = useRef(6);
   //CREATE
   const onCreate = (date, content, emotion) => {
     dispatch({
