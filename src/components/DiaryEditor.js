@@ -21,7 +21,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const [date, setDate] = useState(getStringDate(new Date()));
 
   //DiaryDispatchContext로 부터 onCreate를 받아옴
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   const handleClickEmote = (emotion) => {
     setEmotion(emotion);
@@ -36,7 +36,6 @@ const DiaryEditor = ({ isEdit, originData }) => {
       contentRef.current.focus();
       return;
     }
-
     if (
       window.confirm(
         isEdit ? "일기를 수정하시겠습니까?" : "새로운 일기를 작성하시겠습니까?"
@@ -55,6 +54,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
     navigate("/", { replace: true });
   };
 
+  const handleRemove = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      navigate("/", { replace: true });
+    }
+  };
+
   useEffect(() => {
     //edit 페이지에서만 동작하는 로직 ,  isEdit을 Edit 페이지에서 받아오기 떄문
     if (isEdit) {
@@ -71,6 +77,15 @@ const DiaryEditor = ({ isEdit, originData }) => {
         headText={isEdit ? "일기 수정하기" : "새로운 일기 쓰기"}
         //뒤로가기
         leftChild={<MyButton text={"뒤로 가기"} onClick={() => navigate(-1)} />}
+        rightChild={
+          isEdit && (
+            <MyButton
+              text={"삭제 하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
+        }
       />
       <div>
         <section>
