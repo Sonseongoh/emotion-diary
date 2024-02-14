@@ -11,6 +11,11 @@ const Edit = () => {
 
   const diaryList = useContext(DiaryStateContext);
 
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `감정일기장 - ${id}번 일기 수정`;
+  }, []);
+
   //다이어리 리스트에서 id 값과 일치하는 id를 갖는 일기 꺼내주기(현재 수정하려는일기), Edit 컴포넌트가 mount 될떄
   useEffect(() => {
     if (diaryList.length >= 1) {
